@@ -92,7 +92,6 @@ def create_mix_header(file_map: dict[str, bytes]) -> bytes:
     print(f"Writing {file_count} files to mix file; total size = {data_size}")
 
     header = struct.pack("=I H I", flags, file_count, data_size)
-    print(f"Header: {header}")
 
     return header
 
@@ -104,6 +103,7 @@ def write(
     folder_path: str | None = None,
     filepaths: list[str] | None = None,
 ) -> bytes:
+    print("---")
     file_map = coalesce_input_files(game, file_map, folder_path, filepaths)
 
     file_information_list = [
