@@ -43,6 +43,8 @@ for filename, file_data in filemap.items():
         fp.write(file_data)
 ```
 
+---
+
 ### Creating a `*.mix` file
 
 The `ra2mix.write` supports three methods for specifying files to include in a new
@@ -58,5 +60,7 @@ mix_filepath = "path/to/mixfile.mix"
 target_folder = "read/from/folder"
 
 mix_data = ra2mix.write(mix_filepath, folder_path=target_folder)
-# Optionally something with mix_data if you want; file is already written to `target_folder`
+
+# Optionally do something with mix_data if you want; file is already written to
+# `mix_filepath`
 ```
