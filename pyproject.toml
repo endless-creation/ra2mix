@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ra2mix"
+authors = [
+    {name = "nyte_owl", email = "nyteowldev@gmail.com"}
+]
+description = "ra2mix is a python library for working with Red Alert 2 / Yuri's Revenge *.mix files"
+readme = "README.md"
+requires-python = ">=3.11"
+version = "0.0.6"
+dependencies = [
+    "crc"
+]
+classifiers = [
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/endless-creation/ra2mix"
