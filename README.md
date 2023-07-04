@@ -49,9 +49,9 @@ for filename, file_data in filemap.items():
 
 The `ra2mix.write` supports three methods for specifying files to include in a new
 `*.mix` file:
-    - `filemap`: A `dict[str, bytes]` object consisting of filenames and file data
-    - `folder_path`: A path to a folder; all files in the folder are added to the mix
-    - `filepaths`: A `list[str]` containing exact filepaths to include in the mix
+- `filemap`: A `dict[str, bytes]` object consisting of filenames and file data
+- `folder_path`: A path to a folder; all files in the folder are added to the mix
+- `filepaths`: A `list[str]` containing exact filepaths to include in the mix
 
 ```python
 import ra2mix
