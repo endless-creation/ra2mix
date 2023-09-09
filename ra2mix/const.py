@@ -2,6 +2,8 @@ from enum import Enum
 
 HEADER_SIZE = 10
 FILE_ENTRY_SIZE = 12
+SIZE_OF_FLAGS = 4
+SIZE_OF_ENCRYPTED_KEY = 80
 
 MIX_DB_FILENAME = "local mix database.dat"
 
