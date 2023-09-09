@@ -33,7 +33,7 @@ import ra2mix
 
 ### Reading a `*.mix` file
 
-- Read:
+- **Read**:
 
     The `ra2mix.read` function can take a `*.mix` filepath and return a
     `dict[str, bytes]` object. The keys are filenames and the values are file data as
@@ -50,7 +50,8 @@ import ra2mix
         # do something with the file data
     ```
 
-- Extract:
+- **Extract**:
+
     The `ra2mix.extract` function takes a `*.mix` filepath and an extraction folder
     path.  The files contained in the mix file will be written to the folder.
 
