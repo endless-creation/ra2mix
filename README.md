@@ -5,6 +5,14 @@
 
 A python library for working with Red Alert 2 / Yuri's Revenge *.mix files
 
+Mix files are archive files used to store most game files from the games
+**Command And Conquer Red Alert 2** and its expansion pack **Yuri's Revenge**.
+
+This library allows you to interact with the mix files much like you'd interact with
+zip files using a program like 7-zip -- except programmatically, of course 😎.  You can
+create mix files by archiving a list of several files, or read existing mix files
+and do something with the archived files contained within it.
+
 ## Table of Contents
 - [Installation](#installation)
 - [Usage](#usage)
@@ -25,23 +33,34 @@ import ra2mix
 
 ### Reading a `*.mix` file
 
-The `ra2mix.read` function will take a `*.mix` filepath and return a `dict[str, bytes]`
-object. The keys are filenames and the values are file data as bytes.
+- Read:
 
-```python
-import ra2mix
-mix_filepath = "path/to/mixfile.mix"
+    The `ra2mix.read` function can take a `*.mix` filepath and return a
+    `dict[str, bytes]` object. The keys are filenames and the values are file data as
+    bytes.
 
-filemap = ra2mix.read(mix_filepath)
-print(f"filenames: {list(filemap.keys())}")
+    ```python
+    import ra2mix
+    mix_filepath = "path/to/mixfile.mix"
 
-extract_folder = "extract/to/folder"
+    filemap = ra2mix.read(mix_filepath)
+    print(f"filenames: {list(filemap.keys())}")
 
-for filename, file_data in filemap.items():
-    print(f"Creating {filename}")
-    with open(os.path.join(extract_folder, filename), "wb") as fp:
-        fp.write(file_data)
-```
+    for filename, file_data in filemap.items():
+        # do something with the file data
+    ```
+
+- Extract:
+    The `ra2mix.extract` function takes a `*.mix` filepath and an extraction folder
+    path.  The files contained in the mix file will be written to the folder.
+
+    ```python
+    import ra2mix
+    mix_filepath = "path/to/mixfile.mix"
+    extract_folder = "extract/to/folder"
+
+    ra2mix.extract(mix_filepath, extract_folder)
+    ```
 
 ---
 
