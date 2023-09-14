@@ -10,8 +10,8 @@ authors = [
 description = "ra2mix is a python library for working with Red Alert 2 / Yuri's Revenge *.mix files"
 readme = "README.md"
 requires-python = ">=3.11"
-version = "0.0.10"
-dependencies = []
+version = "0.0.11"
+dependencies = ["blowfish==0.6.1"]
 classifiers = [
     "Programming Language :: Python :: 3.11",
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
@@ -20,3 +20,6 @@ classifiers = [
 
 [project.urls]
 "Homepage" = "https://github.com/endless-creation/ra2mix"
+
+[tool.setuptools.packages.find]
+where = ["ra2mix"]
