@@ -72,9 +72,9 @@ def coalesce_input_files(
         else:
             filetypes[filetype] = 1
 
-    print("The following files will be written to the .mix file:")
-    for filetype, count in filetypes.items():
-        print(f"\t*.{filetype}: {count}")
+    # print("The following files will be written to the .mix file:")
+    # for filetype, count in filetypes.items():
+    # print(f"\t*.{filetype}: {count}")
 
     return file_map
 
@@ -89,7 +89,7 @@ def create_mix_header(file_map: dict[str, bytes]) -> bytes:
     file_count = len(file_map)
     data_size = sum(len(data) for data in file_map.values())
 
-    print(f"Writing {file_count} files to mix file; total size = {data_size}")
+    # print(f"Writing {file_count} files to mix file; total size = {data_size}")
 
     header = struct.pack("=I H I", flags, file_count, data_size)
 
@@ -103,7 +103,7 @@ def write(
     folder_path: str | None = None,
     filepaths: list[str] | None = None,
 ) -> bytes:
-    print("---")
+    # print("---")
     file_map = coalesce_input_files(game, file_map, folder_path, filepaths)
 
     file_information_list = [
@@ -117,7 +117,7 @@ def write(
     offset = 0
     file_entry_data = b""
     body_data = b""
-    print("Generating .mix data")
+    # print("Generating .mix data")
     for file_info in sorted_file_info_list:
         size = len(file_info["data"])
 
@@ -129,7 +129,7 @@ def write(
     mix_data = create_mix_header(file_map) + file_entry_data + body_data
 
     if mix_filepath is not None:
-        print(f"Writing mix data to file {mix_filepath}")
+        # print(f"Writing mix data to file {mix_filepath}")
         with open(mix_filepath, "wb") as fp:
             fp.write(mix_data)
 
