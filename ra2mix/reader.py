@@ -20,6 +20,10 @@ gmd_file_id_map = {filename: ra2_crc(filename) for filename in gmd.keys()}
 # print(f"Loaded {len(gmd)} files from global mix database")
 
 
+def _header_is_encrypted(header: Header) -> bool:
+    return header.flags is not None and (header.flags & 0x20000) != 0
+
+
 def get_file_entries(file_count: int, index_data: bytes) -> list[FileEntry]:
     file_entries = []
     for i in range(file_count):
@@ -61,8 +65,13 @@ def get_file_map(file_entries: list[FileEntry], mix_data: bytes, header: Header)
 
     MIX_DB_ID = ra2_crc(const.MIX_DB_FILENAME)
 
-    body_start = const.HEADER_SIZE + (const.FILE_ENTRY_SIZE * len(file_entries))
-    if header.flags & 0x20000:
+    if header.flags is None:
+        header_size = const.MIN_HEADER_SIZE
+    else:
+        header_size = const.HEADER_SIZE
+
+    body_start = header_size + (const.FILE_ENTRY_SIZE * len(file_entries))
+    if _header_is_encrypted(header):
         body_start += const.SIZE_OF_ENCRYPTED_KEY
         body_start += cccrypto.get_decryption_block_sizing(header.file_count)[1]
 
@@ -113,11 +122,15 @@ def read_file_info(
             mix_data = fp.read()
 
     # print(f"{len(mix_data)=}")
+    header_size = const.HEADER_SIZE
+    if struct.unpack("=H", mix_data[:2])[0] != 0:
+        count, size = struct.unpack("=HI", mix_data[: const.MIN_HEADER_SIZE])
+        header = Header._make([None, count, size])
+        header_size = const.MIN_HEADER_SIZE
+    else:
+        header = Header._make(struct.unpack("=I H I", mix_data[: const.HEADER_SIZE]))
 
-    header = Header._make(struct.unpack("=I H I", mix_data[: const.HEADER_SIZE]))
-    # print(bin(header.flags))
-    is_encrypted = (header.flags & 0x20000) != 0
-    if is_encrypted:
+    if _header_is_encrypted(header):
         encrypted_blowfish_key = mix_data[
             const.SIZE_OF_FLAGS : const.SIZE_OF_FLAGS + const.SIZE_OF_ENCRYPTED_KEY
         ]
@@ -130,9 +143,7 @@ def read_file_info(
         file_entries = get_file_entries(file_count, index_data)
         header = header._replace(file_count=file_count, data_size=data_size)
     else:
-        file_entries = get_file_entries(
-            header.file_count, mix_data[const.HEADER_SIZE :]
-        )
+        file_entries = get_file_entries(header.file_count, mix_data[header_size:])
 
     return header, file_entries, mix_data
 

@@ -2,6 +2,7 @@ from enum import Enum
 
 # Byte Size of various data types
 BLOCK_SIZE = 8
+MIN_HEADER_SIZE = 6
 HEADER_SIZE = 10
 FILE_ENTRY_SIZE = 12
 SIZE_OF_FLAGS = 4
